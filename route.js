@@ -6,11 +6,12 @@ router.post('/linewebhook',async function(ctx, next){
     const channelSecret = '377bbe253460bbd5ec813237a166bebe';
     const KoaRequest = ctx.request;
     const json = JSON.stringify(KoaRequest.body);
+    console.log(json);
     const replyToken = json.events[0].replyToken;
     const hash = crypto.createHmac('sha256', channelSecret)
               .update(Buffer.from(json, 'utf8'))
               .digest('base64');
-    console.log(json);
+    
     if(KoaRequest.headers['x-line-signature'] === hash){
         ctx.status = 200;
     }else{
