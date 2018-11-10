@@ -2,8 +2,9 @@ const Router = require('koa-router');
 const crypto = require('crypto');
 const router = Router();
 
-router.post('/',function(){
-    ctx.body = "Connected"
+router.post('/',async function(ctx, next){
+    ctx.body = "Connected";
+    await next();
 })
 
 router.post('/linewebhook',async function(ctx, next){
