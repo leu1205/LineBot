@@ -1,8 +1,7 @@
 const linebot = require('linebot');
 const koa = require('koa');
 const router = require('./route');
-const app = koa();
-const linebotParser = bot.parser();
+const app = new koa();
 
 app.use(router.routes());
 
@@ -20,4 +19,6 @@ bot.on('message',function(event){
     });
 });
 
-app.listen(3000);
+app.listen(3000,function(){
+    console.log('Connected！');
+});
