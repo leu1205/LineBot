@@ -4,16 +4,21 @@ const router = Router();
 
 router.post('/linewebhook',async function(ctx, next){
     const channelSecret = '377bbe253460bbd5ec813237a166bebe';
-
+    const KoaRequest = ctx.request;
+    const replyToken = KoaRequest.params['events'][0]['replyToken'];
     const hash = crypto.createHmac('sha256', channelSecret)
-              .update(Buffer.from(JSON.stringify(ctx.request.body), 'utf8'))
+              .update(Buffer.from(JSON.stringify(KoaRequest.body), 'utf8'))
               .digest('base64');
-    console.log(ctx.request.body);
-    if(ctx.request.headers['x-line-signature'] === hash){
+    console.log(KoaRequest.body);
+    if(KoaRequest.headers['x-line-signature'] === hash){
         ctx.status = 200;
     }else{
-        ctx.body = 'Unauthorized!';
-        ctx.status = 401;
+        if(replyToken === '00000000000000000000000000000000' || replyToken === 'ffffffffffffffffffffffffffffffff'){
+            ctx.status = 200;
+        }else{
+            ctx.body = 'Unauthorized!';
+            ctx.status = 401;
+        }
     }
 
     await next();
