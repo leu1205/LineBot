@@ -1,31 +1,19 @@
 const Router = require('koa-router');
-const crypto = require('crypto');
+const linebot = require('linebot');
 const router = Router();
 
-router.post('/',async function(ctx, next){
-    ctx.body = "Connected";
-    await next();
-})
+const bot = linebot({
+    channelId: '1621025919',
+    channelSecret: '377bbe253460bbd5ec813237a166bebe',
+    channelAccessToken: '0WguYGSk1mxHYKyf00utwtrAt0ebMGA/c3Zop93Q9sbssYMOg9mfRDdMbGHf+3D6mGwkbKroMjzafFctpi8+zPCxTT0HljjsVP7IYOF/iwyqJk3G040FTLigpB38J2X+IuMYB5hUy2D6w3Y1WuxN+AdB04t89/1O/w1cDnyilFU='
+});
 
 router.post('/linewebhook',async function(ctx, next){
-    const channelSecret = '377bbe253460bbd5ec813237a166bebe';
-    const KoaRequest = ctx.request;
-    const json = JSON.stringify(KoaRequest.body);
-    console.log(json);
-    //const replyToken = json.events.replyToken;
-    const hash = crypto.createHmac('sha256', channelSecret)
-              .update(KoaRequest.rawBody)
-              .digest('base64');
-    
-    if(KoaRequest.headers['x-line-signature'] === hash){
+    if(bot.verify(ctx.request.rawBody, ctx.headers['x-line-signature'])){
         ctx.status = 200;
+        console.log(ctx.request.body);
     }else{
-        /*if(replyToken === '00000000000000000000000000000000' || replyToken === 'ffffffffffffffffffffffffffffffff'){
-            ctx.status = 200;
-        }else{*/
-            ctx.body = 'Unauthorized!';
-            ctx.status = 401;
-        //}
+        ctx.status = 401;
     }
 
     await next();
