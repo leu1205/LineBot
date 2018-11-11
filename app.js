@@ -13,11 +13,10 @@ const bot = linebot({
 
 router.post('/linewebhook',async function(ctx, next){
     if(bot.verify(ctx.request.rawBody, ctx.headers['x-line-signature'])){
-        this.status = 200;
         bot.parse(ctx.request.body);
         ctx.body = "Connected";
     }else{
-        this.status = 401;
+        ctx.status = 401;
     }
 
     await next();
@@ -28,11 +27,9 @@ app.use(bodyParser());
 app.use(router.routes());
 
 bot.on('message',function(event){
-    event.reply(event.message.text).then(function(data){
-        
-    }).catch(function(error){
-
-    });
+    if(event.message.text == "誰長得像金城武"){
+        event.reply({type:'text', text: "當然4你啊"});
+    }
 });
 
 
