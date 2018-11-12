@@ -13,11 +13,10 @@ const bot = linebot({
 router.post('/linewebhook',async function(ctx, next){
     if(bot.verify(ctx.request.rawBody, ctx.headers['x-line-signature'])){
         ctx.status = 200;
+        await next();
     }else{
         ctx.status = 401;
     }
-
-    await next();
 },echo(bot));
 
 module.exports = router;
