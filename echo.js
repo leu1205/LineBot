@@ -13,10 +13,11 @@ module.exports = (bot) => {
 
         bot.on('message', async function (event) {
             if (event.message.text == "日幣") {
-                process.nextTick(await Best_3(event.userId));
+                bot.push(event.userId, "你等等，我馬上幫你查。");
+                let msg = await Best_3();
                 event.reply({
                     type: 'text',
-                    text: "你等等，我馬上幫你查。"
+                    text: msg
                 });
             } else {
                 event.reply(replyMessage(event.message));
@@ -25,10 +26,9 @@ module.exports = (bot) => {
     }
 }
 
-async function Best_3(userId){
+async function Best_3(){
     let JPY = await BestRate_JPY();
-    let msg = "目前日幣最佳前三匯率：\n"+JPY[0].join("：")+"\n"+JPY[1].join("：")+"\n"+JPY[2].join("：");
-    bot.push(userId,msg);
+    return "目前日幣最佳前三匯率：\n"+JPY[0].join("：")+"\n"+JPY[1].join("：")+"\n"+JPY[2].join("：");
 }
 
 function replyMessage(message) {
