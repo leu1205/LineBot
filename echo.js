@@ -13,7 +13,7 @@ module.exports = (bot) => {
 
         bot.on('message', async function (event) {
             if (event.message.text == "日幣") {
-                bot.push(event.userId, "你等等，我馬上幫你查。");
+                bot.push(event.source.userId, "你等等，我馬上幫你查。");
                 let msg = await Best_3();
                 event.reply({
                     type: 'text',
