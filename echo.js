@@ -1,3 +1,5 @@
+const BestRate_JPY = require('./BestRate_JPY');
+
 module.exports = (bot) => {
     return async (ctx, next) => {
         bot.parse(ctx.request.body);
@@ -10,16 +12,22 @@ module.exports = (bot) => {
         });
 
         bot.on('message', function (event) {
-            if (event.message.text == "誰長得像金城武") {
+            if (event.message.text == "日幣") {
+                
                 event.reply({
                     type: 'text',
-                    text: "當然4你啊"
+                    text: Best_3()
                 });
             } else {
                 event.reply(replyMessage(event.message));
             }
         });
     }
+}
+
+function Best_3(){
+    let JPY = BestRate_JPY();
+    return JPY[0].join(":")+"\n"+JPY[1].join(":")+"\n"+JPY[2].join(":");
 }
 
 function replyMessage(message) {

@@ -5,10 +5,12 @@
   "main": "app.js",
   "dependencies": {
     "crypto": "^1.0.1",
+    "get-json": "^1.0.1",
     "koa": "^2.6.2",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
-    "linebot": "^1.4.1"
+    "linebot": "^1.4.1",
+    "phantom": "^6.0.3"
   },
   "devDependencies": {},
   "scripts": {
