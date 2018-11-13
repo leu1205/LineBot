@@ -16,7 +16,7 @@ module.exports = (bot) => {
                 
                 event.reply({
                     type: 'text',
-                    text: Best_3()
+                    text: await Best_3()
                 });
             } else {
                 event.reply(replyMessage(event.message));
@@ -25,8 +25,8 @@ module.exports = (bot) => {
     }
 }
 
-function Best_3(){
-    let JPY = BestRate_JPY();
+async function Best_3(){
+    let JPY = await BestRate_JPY();
     return JPY[0].join(":")+"\n"+JPY[1].join(":")+"\n"+JPY[2].join(":");
 }
 
