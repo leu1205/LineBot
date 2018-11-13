@@ -11,12 +11,12 @@ module.exports = (bot) => {
             });
         });
 
-        bot.on('message', function (event) {
+        bot.on('message', async function (event) {
             if (event.message.text == "日幣") {
-                
+                let msg = await Best_3();
                 event.reply({
                     type: 'text',
-                    text: await Best_3()
+                    text: msg
                 });
             } else {
                 event.reply(replyMessage(event.message));
